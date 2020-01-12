@@ -3,8 +3,10 @@ package com.example.popularmovies;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,24 +17,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
-    public class apiQueryTask() {
+    class apiQueryTask extends AsyncTask<String, Void, Void> {
 
-        URL movieRequestUrl = NetworkUtils.buildUrl();
+        @Override
+        protected Void doInBackground(String... params){
 
-        try {
-            String jsonMovieResponse = NetworkUtils
-                    .getResponseFromHttpUrl(movieRequestUrl);
+            URL movieRequestUrl = NetworkUtils.buildUrl();
 
-            String[] simpleJsonMovieData = TmdbJsonUtils
-                    .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
+            try {
+                String jsonMovieResponse = NetworkUtils
+                        .getResponseFromHttpUrl(movieRequestUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            return simpleJsonMovieData;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
     }
 }
