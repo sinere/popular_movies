@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        new apiQueryTask().execute();
+
     }
 
     class apiQueryTask extends AsyncTask<String, Void, Void> {
@@ -30,9 +33,13 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
+                Log.e(getClass().getName(),"json respone = " + jsonMovieResponse);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            return null;
+
 
         }
     }
