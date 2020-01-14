@@ -1,11 +1,8 @@
 package com.example.popularmovies;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class jsonUtils {
 
@@ -21,7 +18,6 @@ public class jsonUtils {
         } catch (JSONException e) {
             System.out.println("Something went wrong.");
         }
-
 
         return movie;
     }

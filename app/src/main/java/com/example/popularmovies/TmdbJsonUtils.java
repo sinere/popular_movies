@@ -14,7 +14,7 @@ import java.net.HttpURLConnection;
 
 public final class TmdbJsonUtils {
 
-    public static String[] getSimpleMovieStringsFromJson(Context context, String forecastJsonStr)
+    public static String getSimpleMovieStringsFromJson(Context context, String forecastJsonStr)
             throws JSONException {
 
         /* Movie information. Each movie's info is an element of the "list" array */
@@ -56,5 +56,6 @@ public final class TmdbJsonUtils {
 
         }
 
+        return TMD_LIST;
     }
 }

@@ -11,10 +11,7 @@ public class Movie {
     private Integer popularity;
     private Integer rating;
 
-    //Constructor
-    public static Movie{}
-
-    public Movie(String movieName, String movieOriName, String posterUrl, String movieOverview, String releaseDate, Integer popularity, Integer rating) {
+    public Movie() {
         this.movieName = movieName;
         this.movieOriName = movieOriName;
         this.posterUrl = posterUrl;
@@ -64,19 +61,19 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public String getPopularity() {
+    public Integer getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(String popularity) {
+    public void setPopularity(Integer popularity) {
         this.popularity = popularity;
     }
 
-    public String getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 }
