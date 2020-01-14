@@ -10,6 +10,8 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.URL;
 
+import static com.example.popularmovies.jsonUtils.parseMovieJson;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         new apiQueryTask().execute();
+
 
     }
 
@@ -33,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
-                Log.e(getClass().getName(),"json respone = " + jsonMovieResponse);
+                Log.e(getClass().getName(),"json response = " + jsonMovieResponse);
+                parseMovieJson(jsonMovieResponse);
             } catch (IOException e) {
                 e.printStackTrace();
             }
