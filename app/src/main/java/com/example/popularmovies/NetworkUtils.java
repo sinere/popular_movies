@@ -15,7 +15,7 @@ import static android.content.ContentValues.TAG;
 public final class NetworkUtils {
 
     private static final String BASE_URL =
-            "http://api.themoviedb.org/3/movie/popular";
+            "https://api.themoviedb.org/3/movie/popular";
     private static final String API_KEY =
             "bdc0f84e500c0f3817c0b25347707025";
 
@@ -51,6 +51,7 @@ public final class NetworkUtils {
 
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
+            Log.v(TAG, "Scanner " + scanner);
 
             boolean hasInput = scanner.hasNext();
             if (hasInput) {
