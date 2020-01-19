@@ -20,7 +20,8 @@ public class jsonUtils {
                 for (int i = 0; i < resultJSONArray.length(); i++) {
                     JSONObject movieObject = resultJSONArray.getJSONObject(i);
                     movie.setMovieName(movieObject.getString("title"));
-                    movie.setPosterUrl(movieObject.getString("poster_path"));
+                    movie.setPosterUrl("http://image.tmdb.org/t/p/w500" + movieObject.getString("poster_path"));
+                    Log.e("CHECK URL", "image url = " + movie.getPosterUrl() );
                 }
             }
             Log.e("CHECK NAME", "name = " + movie.getMovieName() );

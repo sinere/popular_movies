@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new apiQueryTask().execute();
-
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_mainGrid);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new MoviesAdapter(this);
@@ -44,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
             movies.add(new Movie());
         }
         mAdapter.setMovieList(movies);
-
-
+        new apiQueryTask().execute();
+        Log.e("CHECK URL", "image url = " + movies.get(0).getPosterUrl() );
     }
 
     class apiQueryTask extends AsyncTask<String, Void, Void> {
@@ -106,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             Picasso.get()
                     .load(movie.getPosterUrl())
                     .into(holder.imageView);
+            Log.e("CHECK URL", "image url = " + movie.getPosterUrl() );
         }
 
         @Override

@@ -30,7 +30,7 @@ public class Movie {
     }
 
     public String getPosterUrl() {
-        return TMDB_IMAGE_PATH + posterUrl;
+        return posterUrl;
     }
 
     public void setPosterUrl(String posterUrl) {
