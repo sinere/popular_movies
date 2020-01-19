@@ -3,8 +3,9 @@ package com.example.popularmovies;
 import java.util.List;
 
 public class Movie {
+
+    public static final String TMDB_IMAGE_PATH = "http://image.tmdb.org/t/p/w500";
     private String movieName;
-    private String movieOriName;
     private String posterUrl;
     private String movieOverview;
     private String releaseDate;
@@ -13,7 +14,6 @@ public class Movie {
 
     public Movie() {
         this.movieName = movieName;
-        this.movieOriName = movieOriName;
         this.posterUrl = posterUrl;
         this.movieOverview = movieOverview;
         this.releaseDate = releaseDate;
@@ -29,16 +29,8 @@ public class Movie {
         this.movieName = movieName;
     }
 
-    public String getMovieOriName() {
-        return movieOriName;
-    }
-
-    public void setMovieOriName(String movieOriName) {
-        this.movieOriName = movieOriName;
-    }
-
     public String getPosterUrl() {
-        return posterUrl;
+        return TMDB_IMAGE_PATH + posterUrl;
     }
 
     public void setPosterUrl(String posterUrl) {
