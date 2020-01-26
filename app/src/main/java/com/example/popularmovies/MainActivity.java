@@ -36,20 +36,14 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        List<Movie> movies = new ArrayList<>();
-
-        for (int i = 0; i < 25; i++) {
-            movies.add(new Movie());
-        }
-        mAdapter.setMovieList(movies);
         new apiQueryTask().execute();
-        Log.e("CHECK URL", "image url = " + movies.get(0).getPosterUrl() );
+//        Log.e("CHECK URL", "image url = " + movies.get(0).getPosterUrl() );
     }
 
-    class apiQueryTask extends AsyncTask<String, Void, Void> {
+    class apiQueryTask extends AsyncTask<String, Void, List<Movie>> {
 
         @Override
-        protected Void doInBackground(String... params){
+        protected List<Movie> doInBackground(String... params){
 
             URL movieRequestUrl = NetworkUtils.buildUrl();
 
@@ -57,11 +51,18 @@ public class MainActivity extends AppCompatActivity {
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
                 Log.e(getClass().getName(),"json response = " + jsonMovieResponse);
-                parseMovieJson(jsonMovieResponse);
+                Movie movie = new Movie();
+                return parseMovieJson(jsonMovieResponse, movie);
             } catch (IOException e) {
                 e.printStackTrace();
+                return null;
             }
-            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(List<Movie> movies) {
+            mAdapter.setMovieList(movies);
         }
     }
 

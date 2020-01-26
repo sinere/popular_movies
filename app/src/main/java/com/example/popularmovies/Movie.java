@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Movie {
 
-    public static final String TMDB_IMAGE_PATH = "http://image.tmdb.org/t/p/w500";
+    public static final String TMDB_IMAGE_PATH = "https://image.tmdb.org/t/p/w500";
     private String movieName;
     private String posterUrl;
     private String movieOverview;
