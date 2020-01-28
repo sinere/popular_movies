@@ -5,13 +5,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -37,7 +41,31 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         new apiQueryTask().execute();
-//        Log.e("CHECK URL", "image url = " + movies.get(0).getPosterUrl() );
+        setContentView(R.layout.movie_detail);
+        ImageView imageView = findViewById(R.id.image_movie);
+        populateUI(movie);
+        Picasso.with(this)
+                .load(movie.getImage())
+                .into(imageView);
+    }
+
+    private void populateUI(Movie movie) {
+        TextView textViewOriginalTitle = findViewById(R.id.original_title);
+        textViewOriginalTitle.setText(movie.getMovieName());
+
+        TextView textViewDescription = findViewById(R.id.movie_overview);
+        textViewDescription.setText(movie.getMovieOverview());
+
+        ImageView imageView = findViewById(R.id.image_movie);
+        String image = movie.getPosterUrl();
+        int resID = getResources().getIdentifier(image, "drawable", getPackageName());
+        imageView.setImageResource(resID);
+
+        TextView textViewRating = findViewById(R.id.movie_rating);
+        textViewRating.setText(movie.getRating());
+
+        TextView textViewReleaseDate = findViewById(R.id.release_date);
+        textViewReleaseDate.setText(movie.getReleaseDate());
     }
 
     class apiQueryTask extends AsyncTask<String, Void, List<Movie>> {
@@ -51,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
                 Log.e(getClass().getName(),"json response = " + jsonMovieResponse);
-                Movie movie = new Movie();
-                return parseMovieJson(jsonMovieResponse, movie);
+                return parseMovieJson(jsonMovieResponse);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;

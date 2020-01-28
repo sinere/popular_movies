@@ -12,7 +12,7 @@ import java.util.List;
 
 public class jsonUtils {
 
-    public static List<Movie> parseMovieJson(String json, Movie movie) {
+    public static List<Movie> parseMovieJson(String json) {
 
         try {
             JSONObject movieJson = new JSONObject(json);
@@ -20,8 +20,12 @@ public class jsonUtils {
             List<Movie> movies = new ArrayList<>();
             if(resultJSONArray != null) {
                 for (int i = 0; i < resultJSONArray.length(); i++) {
+                    Movie movie = new Movie();
                     JSONObject movieObject = resultJSONArray.getJSONObject(i);
-                    movie.setMovieName(movieObject.getString("title"));
+                    movie.setMovieName(movieObject.getString("original_title"));
+                    movie.setMovieOverview(movieObject.getString("overview"));
+                    movie.setRating(movieObject.getInt("vote_average"));
+                    movie.setReleaseDate(movieObject.getString("release_date"));
                     movie.setPosterUrl("https://image.tmdb.org/t/p/w500" + movieObject.getString("poster_path"));
                     Log.e("CHECK URL", "image url = " + movie.getPosterUrl() );
                     movies.add(movie);
