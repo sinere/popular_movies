@@ -5,16 +5,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -30,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
+    private static final movieAdapter.movieAdapterOnClickHandler mClickHandler = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,31 +40,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         new apiQueryTask().execute();
-        setContentView(R.layout.movie_detail);
-        ImageView imageView = findViewById(R.id.image_movie);
-        populateUI(movie);
-        Picasso.with(this)
-                .load(movie.getImage())
-                .into(imageView);
-    }
 
-    private void populateUI(Movie movie) {
-        TextView textViewOriginalTitle = findViewById(R.id.original_title);
-        textViewOriginalTitle.setText(movie.getMovieName());
-
-        TextView textViewDescription = findViewById(R.id.movie_overview);
-        textViewDescription.setText(movie.getMovieOverview());
-
-        ImageView imageView = findViewById(R.id.image_movie);
-        String image = movie.getPosterUrl();
-        int resID = getResources().getIdentifier(image, "drawable", getPackageName());
-        imageView.setImageResource(resID);
-
-        TextView textViewRating = findViewById(R.id.movie_rating);
-        textViewRating.setText(movie.getRating());
-
-        TextView textViewReleaseDate = findViewById(R.id.release_date);
-        textViewReleaseDate.setText(movie.getReleaseDate());
     }
 
     class apiQueryTask extends AsyncTask<String, Void, List<Movie>> {
@@ -93,26 +68,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder
+    public static class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public ImageView imageView;
+        public TextView mMovieTextView;
+
         public MovieViewHolder(View itemView)
         {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            mMovieTextView = (TextView) itemView.findViewById(R.id.);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            String movieNumber = MoviesAdapter[adapterPosition];
+            mClickHandler.onClick(movieNumber);
         }
     }
 
     public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
+        private final movieAdapter.movieAdapterOnClickHandler mClickHandler;
         private List<Movie> mMovieList;
         private LayoutInflater mInflater;
         private Context mContext;
 
-        public MoviesAdapter(Context context)
+        public MoviesAdapter(Context context, movieAdapter.movieAdapterOnClickHandler mClickHandler)
         {
             this.mContext = context;
             this.mInflater = LayoutInflater.from(context);
             this.mMovieList = new ArrayList<>();
+            this.mClickHandler = mClickHandler;
         }
 
         @Override
@@ -127,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(MovieViewHolder holder, int position)
         {
             Movie movie = mMovieList.get(position);
+            Movie movieData = mMovieList.get(position);
+            MovieViewHolder.mMovieTextView.setText(movieData);
 
             // This is how we use Picasso to load images from the internet.
             Picasso.get()
@@ -139,6 +129,10 @@ public class MainActivity extends AppCompatActivity {
         public int getItemCount()
         {
             return (mMovieList == null) ? 0 : mMovieList.size();
+        }
+
+        public interface movieAdapterOnClickHandler {
+            void onClick(String movieNumber);
         }
 
         public void setMovieList(List<Movie> movieList)
