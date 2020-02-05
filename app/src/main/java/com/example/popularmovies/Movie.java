@@ -1,8 +1,11 @@
 package com.example.popularmovies;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class Movie {
+public class Movie implements Parcelable {
 
     public static final String TMDB_IMAGE_PATH = "https://image.tmdb.org/t/p/w500";
     private String movieName;
@@ -20,6 +23,35 @@ public class Movie {
         this.popularity = popularity;
         this.rating = rating;
     }
+
+    protected Movie(Parcel in) {
+        movieName = in.readString();
+        posterUrl = in.readString();
+        movieOverview = in.readString();
+        releaseDate = in.readString();
+        if (in.readByte() == 0) {
+            popularity = null;
+        } else {
+            popularity = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            rating = null;
+        } else {
+            rating = in.readInt();
+        }
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public String getMovieName() {
         return movieName;
@@ -67,5 +99,30 @@ public class Movie {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(movieName);
+        dest.writeString(posterUrl);
+        dest.writeString(movieOverview);
+        dest.writeString(releaseDate);
+        if (popularity == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(popularity);
+        }
+        if (rating == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(rating);
+        }
     }
 }

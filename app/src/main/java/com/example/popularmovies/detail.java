@@ -1,5 +1,6 @@
 package com.example.popularmovies;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -10,6 +11,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 
+import java.net.URL;
+
 public class detail extends AppCompatActivity {
 
     @Override
@@ -18,6 +21,14 @@ public class detail extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Intent intent = getIntent();
+        Movie movie = intent.getParcelableExtra("Movie");
+
+        String movieName = movie.getMovieName();
+        String posterURL = movie.getPosterUrl();
+        String movieOverview = movie.getMovieOverview();
+        String releaseDate = movie.getReleaseDate();
+        Integer rating = movie.getRating();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

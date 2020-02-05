@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,11 +24,11 @@ import java.util.List;
 
 import static com.example.popularmovies.jsonUtils.parseMovieJson;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivity.MoviesAdapter.movieAdapterOnClickHandler {
 
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
-    private static final movieAdapter.movieAdapterOnClickHandler mClickHandler = null;
+    private static MoviesAdapter.movieAdapterOnClickHandler mClickHandler;
 
 
     @Override
@@ -37,11 +38,22 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_mainGrid);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        mAdapter = new MoviesAdapter(this);
+        mAdapter = new MoviesAdapter(this, (MoviesAdapter.movieAdapterOnClickHandler) this);
         mRecyclerView.setAdapter(mAdapter);
         new apiQueryTask().execute();
 
     }
+
+    @Override
+    public void onClick() {
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
 
     class apiQueryTask extends AsyncTask<String, Void, List<Movie>> {
 
@@ -68,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public ImageView imageView;
         public TextView mMovieTextView;
@@ -77,30 +89,31 @@ public class MainActivity extends AppCompatActivity {
         {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            mMovieTextView = (TextView) itemView.findViewById(R.id.);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            String movieNumber = MoviesAdapter[adapterPosition];
-            mClickHandler.onClick(movieNumber);
+            mClickHandler.onClick();
         }
     }
 
     public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
-        private final movieAdapter.movieAdapterOnClickHandler mClickHandler;
+        private movieAdapterOnClickHandler mClickHandler;
         private List<Movie> mMovieList;
         private LayoutInflater mInflater;
         private Context mContext;
 
-        public MoviesAdapter(Context context, movieAdapter.movieAdapterOnClickHandler mClickHandler)
+        public MoviesAdapter(Context context, movieAdapterOnClickHandler mClickHandler)
         {
             this.mContext = context;
             this.mInflater = LayoutInflater.from(context);
             this.mMovieList = new ArrayList<>();
             this.mClickHandler = mClickHandler;
+        }
+
+        public MoviesAdapter(MainActivity mainActivity) {
+
         }
 
         @Override
@@ -115,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(MovieViewHolder holder, int position)
         {
             Movie movie = mMovieList.get(position);
-            Movie movieData = mMovieList.get(position);
-            MovieViewHolder.mMovieTextView.setText(movieData);
 
             // This is how we use Picasso to load images from the internet.
             Picasso.get()
@@ -132,7 +143,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public interface movieAdapterOnClickHandler {
-            void onClick(String movieNumber);
+            void onClick();
+            //Intent intent = new Intent(MainActivity.this, detail.class);
+
         }
 
         public void setMovieList(List<Movie> movieList)
