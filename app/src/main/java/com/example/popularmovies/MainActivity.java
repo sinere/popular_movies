@@ -9,6 +9,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -43,6 +46,30 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.mov
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.sort_popular:
+                String selection = "popular";
+                new apiQueryTask().execute(selection);
+                return true;
+            case R.id.sort_rating:
+                selection = "topRated";
+                new apiQueryTask().execute(selection);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onClick(Movie indivMovie) {
         Intent intent = new Intent(this, detail.class);
         intent.putExtra("Movie", indivMovie);
@@ -54,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.mov
         @Override
         protected List<Movie> doInBackground(String... params){
 
-            URL movieRequestUrl = NetworkUtils.buildUrl();
+            URL movieRequestUrl = NetworkUtils.buildUrl(params);
 
             try {
                 String jsonMovieResponse = NetworkUtils

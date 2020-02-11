@@ -22,26 +22,34 @@
 
     <include layout="@layout/content_detail" />
 
-    <ImageView
-        android:id="@+id/image_poster"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:columnCount="2"
-        android:rowCount="4"
+        android:rowCount="5"
         android:orientation="vertical"
         android:useDefaultMargins="true">
 
+        <ImageView
+            android:id="@+id/image_poster"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/movie_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textFontWeight="25"/>
 
 
         <TextView
@@ -62,6 +70,9 @@
 
     </GridLayout>
 
+    </LinearLayout>
+    </ScrollView>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -70,5 +81,4 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
