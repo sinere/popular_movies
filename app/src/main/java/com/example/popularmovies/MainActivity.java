@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.mov
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new MoviesAdapter(this, (MoviesAdapter.movieAdapterOnClickHandler) this);
         mRecyclerView.setAdapter(mAdapter);
-        new apiQueryTask().execute();
+        new apiQueryTask().execute("popular");
     }
 
     @Override
