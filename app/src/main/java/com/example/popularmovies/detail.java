@@ -49,13 +49,13 @@ public class detail extends AppCompatActivity {
         imageView.setImageResource(resID);
 
         TextView textViewOverview = findViewById(R.id.movie_overview);
-        textViewOverview.setText(movieOverview);
+        textViewOverview.setText("Plot Synopsis:\n" + movieOverview);
 
         TextView textViewRelease = findViewById(R.id.release_date);
         textViewRelease.setText("Release Date: " + releaseDate);
 
         TextView textViewRating = findViewById(R.id.movie_rating);
-        textViewRating.setText("User rating: " + rating.toString());
+        textViewRating.setText("Average Vote: " + rating.toString());
 
         Picasso.get()
                 .load(movie.getPosterUrl())
