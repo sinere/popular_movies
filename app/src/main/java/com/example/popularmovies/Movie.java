@@ -5,7 +5,17 @@ import android.os.Parcelable;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "movie_table")
 public class Movie implements Parcelable {
+
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "movie")
 
     public static final String TMDB_IMAGE_PATH = "https://image.tmdb.org/t/p/w500";
     private String movieName;
